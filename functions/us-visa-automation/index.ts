@@ -23,6 +23,7 @@ declare global {
 }
 
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
+// const IS_PRODUCTION = true;
 
 const transporter = nodemailer.createTransport(
   `smtps://${process.env.NODEMAILER_USER}:${process.env.NODEMAILER_PASSWORD}@${process.env.NODEMAILER_HOST}`
@@ -91,7 +92,7 @@ async function runJob(user: IUser) {
   if (availableDates.error || !availableDates.data) {
     return {
       statusCode: 400,
-      body: availableDates.error || "Something went wrong",
+      body: availableDates.error.toString() || "Something went wrong",
     };
   }
 
@@ -185,7 +186,7 @@ async function runJob(user: IUser) {
       });
       return {
         statusCode: 400,
-        body: `Error: ${error}`,
+        body: `Error: ${error.toString()}`,
       };
     });
 }
