@@ -6,7 +6,7 @@ import puppeteer, { Browser } from 'puppeteer-core';
 import { Handler } from '@netlify/functions';
 import chromium from '@sparticuz/chromium';
 
-import User, { IUser } from '../../models/user';
+import User, { IUser } from '../../../models/user';
 
 config();
 
@@ -318,8 +318,6 @@ async function getAvailableDates(username: string, password: string) {
     const vanJson = JSON.parse(vanData);
     let vancouver = vanJson.map((item) => item.date) as string[];
 
-    await browser.close();
-
     return {
       data: {
         calgary,
@@ -337,6 +335,10 @@ async function getAvailableDates(username: string, password: string) {
       data: null,
       error,
     };
+  } finally {
+    if (browser) {
+      await browser.close();
+    }
   }
 }
 
