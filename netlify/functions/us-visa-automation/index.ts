@@ -38,7 +38,7 @@ const getBrowser = async () => {
     return puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath(),
+      executablePath: await chromium.executablePath("/var/task/bin/"),
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
     });
