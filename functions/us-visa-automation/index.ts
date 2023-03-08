@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 import puppeteer, { Browser } from 'puppeteer-core';
 
 import { Handler } from '@netlify/functions';
+import chromium from '@sparticuz/chromium';
 
 import User, { IUser } from '../../models/user';
 
@@ -23,33 +24,38 @@ declare global {
 }
 
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
-// const IS_PRODUCTION = true;
 
 const transporter = nodemailer.createTransport(
   `smtps://${process.env.NODEMAILER_USER}:${process.env.NODEMAILER_PASSWORD}@${process.env.NODEMAILER_HOST}`
 );
 const cronJobApiBaseUrl = "https://api.cron-job.org/";
 
-const getBrowser = () => {
-  return IS_PRODUCTION
-    ? // Connect to browserless so we don't run Chrome on the same hardware in production
-      puppeteer.connect({
-        browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BROWSERLESS_API_KEY}`,
-      })
-    : // Run the browser locally while in development
-      puppeteer.launch({
-        product: "chrome",
-        headless: true,
-        executablePath: "/usr/bin/google-chrome-stable",
-        args: [
-          "--no-sandbox",
-          "--disable-setuid-sandbox",
-          "--headless",
-          "--disable-gpu",
-          "--disable-dev-shm-usage",
-        ],
-        ignoreDefaultArgs: ["--disable-extensions"],
-      });
+const getBrowser = async () => {
+  if (IS_PRODUCTION) {
+    // return puppeteer.connect({
+    //   browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BROWSERLESS_API_KEY}`,
+    // });
+    return puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
+      ignoreHTTPSErrors: true,
+    });
+  }
+  return puppeteer.launch({
+    product: "chrome",
+    headless: true,
+    executablePath: "/usr/bin/google-chrome-stable",
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--headless",
+      "--disable-gpu",
+      "--disable-dev-shm-usage",
+    ],
+    ignoreDefaultArgs: ["--disable-extensions"],
+  });
 };
 
 mongoose.connect(process.env.MONGODB_URI);
