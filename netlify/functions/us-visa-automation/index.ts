@@ -202,7 +202,9 @@ async function getAvailableDates(username: string, password: string) {
 
   try {
     browser = await getBrowser();
+    console.log("browser", browser);
     const page = await browser.newPage();
+    console.log("page", page);
     await page.goto("https://ais.usvisa-info.com/en-ca/niv/users/sign_in");
     await page.waitForSelector("#user_email");
     await page.waitForSelector("#user_password");
