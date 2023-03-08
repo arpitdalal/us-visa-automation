@@ -100,8 +100,10 @@ const handler: Handler = async (event) => {
 };
 
 async function runJob(user: IUser) {
+  console.log("Run Job");
   const { email, username, password, date, jobId } = user;
   let availableDates = await getAvailableDates(username, password);
+  console.log("Available dates");
 
   if (availableDates.error || !availableDates.data) {
     return {
@@ -178,8 +180,11 @@ async function runJob(user: IUser) {
     vancouver
   );
 
+  console.log("message created");
+
   return await sendEmail(message, email)
     .then(() => {
+      console.log("send email done");
       return {
         statusCode: 200,
         body: "Notification sent",
