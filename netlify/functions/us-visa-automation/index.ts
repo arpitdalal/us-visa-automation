@@ -219,6 +219,7 @@ async function getAvailableDates(username: string, password: string) {
     const page = await browser.newPage();
     console.log("page", page);
     await page.goto("https://ais.usvisa-info.com/en-ca/niv/users/sign_in");
+    console.log("goto");
     await page.waitForSelector("#user_email");
     await page.waitForSelector("#user_password");
     await page.waitForSelector("#policy_confirmed");
@@ -230,6 +231,7 @@ async function getAvailableDates(username: string, password: string) {
     await page.evaluate(() => {
       document?.querySelector<HTMLElement>("input[type='submit']")?.click();
     });
+    console.log("signin");
     await page.waitForSelector("[role='menuitem'] > .button.primary.small");
     await page.evaluate(() => {
       document
@@ -241,6 +243,7 @@ async function getAvailableDates(username: string, password: string) {
     await page.waitForSelector("#main");
     const url = page.url();
     const id = url.replace(/\D/g, "");
+    console.log("got id");
 
     // Calgary
     await page.goto(
@@ -254,6 +257,7 @@ async function getAvailableDates(username: string, password: string) {
       })) as string;
     const calJson = JSON.parse(calData);
     let calgary = calJson.map((item) => item.date) as string[];
+    console.log("got calgary");
 
     // Halifax
     await page.goto(
@@ -267,6 +271,7 @@ async function getAvailableDates(username: string, password: string) {
       })) as string;
     const halJson = JSON.parse(halData);
     let halifax = halJson.map((item) => item.date) as string[];
+    console.log("got halifax");
 
     // Montreal
     await page.goto(
@@ -280,6 +285,7 @@ async function getAvailableDates(username: string, password: string) {
       })) as string;
     const monJson = JSON.parse(monData);
     let montreal = monJson.map((item) => item.date) as string[];
+    console.log("got montreal");
 
     // Ottawa
     await page.goto(
@@ -293,6 +299,7 @@ async function getAvailableDates(username: string, password: string) {
       })) as string;
     const ottJson = JSON.parse(ottData);
     let ottawa = ottJson.map((item) => item.date) as string[];
+    console.log("got ottawa");
 
     // Quebec
     await page.goto(
@@ -306,6 +313,7 @@ async function getAvailableDates(username: string, password: string) {
       })) as string;
     const queJson = JSON.parse(queData);
     let quebec = queJson.map((item) => item.date) as string[];
+    console.log("got quebec");
 
     // Toronto
     await page.goto(
@@ -319,6 +327,7 @@ async function getAvailableDates(username: string, password: string) {
       })) as string;
     const torJson = JSON.parse(torData);
     let toronto = torJson.map((item) => item.date) as string[];
+    console.log("got toronto");
 
     // Vancouver
     await page.goto(
@@ -332,6 +341,7 @@ async function getAvailableDates(username: string, password: string) {
       })) as string;
     const vanJson = JSON.parse(vanData);
     let vancouver = vanJson.map((item) => item.date) as string[];
+    console.log("got vancouver");
 
     return {
       data: {
