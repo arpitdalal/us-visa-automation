@@ -32,9 +32,9 @@ const cronJobApiBaseUrl = "https://api.cron-job.org/";
 
 const getBrowser = async () => {
   if (IS_PRODUCTION) {
-    // return puppeteer.connect({
-    //   browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BROWSERLESS_API_KEY}`,
-    // });
+    return puppeteer.connect({
+      browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BROWSERLESS_API_KEY}`,
+    });
     return puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
