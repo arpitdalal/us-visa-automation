@@ -1,12 +1,12 @@
 import { config } from 'dotenv';
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 import nodemailer from 'nodemailer';
 import puppeteer, { Browser } from 'puppeteer-core';
 
 import { Handler } from '@netlify/functions';
 import chromium from '@sparticuz/chromium';
 
-import User, { IUser } from '../../../models/user';
+import { IUser } from '../../../models/user';
 
 config();
 
@@ -58,30 +58,38 @@ const getBrowser = async () => {
   });
 };
 
-mongoose.connect(process.env.MONGODB_URI);
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error: "));
-db.once("open", function () {
-  console.log("Connected successfully");
-});
+// mongoose.connect(process.env.MONGODB_URI);
+// const db = mongoose.connection;
+// db.on("error", console.error.bind(console, "connection error: "));
+// db.once("open", function () {
+//   console.log("Connected successfully");
+// });
 
 const handler: Handler = async (event) => {
-  if (!event.queryStringParameters || !event.queryStringParameters.email) {
-    return {
-      statusCode: 400,
-      body: "Error: Email is required",
-    };
-  }
+  // if (!event.queryStringParameters || !event.queryStringParameters.email) {
+  //   return {
+  //     statusCode: 400,
+  //     body: "Error: Email is required",
+  //   };
+  // }
 
-  const email = event.queryStringParameters.email;
+  // const email = event.queryStringParameters.email;
 
-  const user = await User.findOne({ email });
-  if (!user) {
-    return {
-      statusCode: 404,
-      body: "Error: User with this email does not exist",
-    };
-  }
+  // const user = await User.findOne({ email });
+  // if (!user) {
+  //   return {
+  //     statusCode: 404,
+  //     body: "Error: User with this email does not exist",
+  //   };
+  // }
+
+  const user = {
+    username: "yashpanwala1996@gmail.com",
+    password: "Y@shPan1996",
+    email: "arpitdalalm@gmail.com",
+    jobId: "",
+    date: "",
+  };
 
   return await runJob(user);
 

@@ -23,7 +23,7 @@ const UserSchema = new Schema({
   },
   date: {
     type: String,
-    default: null,
+    default: "",
   },
 });
 
