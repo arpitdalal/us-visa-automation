@@ -21,12 +21,12 @@
   "dependencies": {
     "@netlify/functions": "^1.4.0",
     "@sparticuz/chromium": "^111.0.0",
+    "dotenv": "^16.0.3",
     "mongoose": "^7.0.1",
     "nodemailer": "^6.9.1",
     "puppeteer-core": "^19.7.3"
   },
   "devDependencies": {
-    "@types/nodemailer": "^6.4.7",
-    "dotenv": "^16.0.3"
+    "@types/nodemailer": "^6.4.7"
   }
 }
